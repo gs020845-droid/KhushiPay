@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KhushiPay - Private Wallet</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eef2f7; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .app-container { background: #fff; width: 350px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        .logo { color: #2ecc71; font-size: 28px; font-weight: bold; margin-bottom: 20px; }
+        .wallet-card { background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        input { width: 90%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; }
+        button { background: #2ecc71; color: white; border: none; padding: 12px 25px; border-radius: 10px; font-size: 16px; cursor: pointer; transition: 0.3s; width: 100%; }
+        button:hover { background: #27ae60; }
+        #qr-result { margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 10px; display: none; }
+        #qr-result img { width: 200px; height: 200px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="logo">KhushiPay</div>
+    
+    <div class="wallet-card">
+        <div style="font-size: 14px; opacity: 0.9;">कुल बैलेंस</div>
+        <div style="font-size: 32px; font-weight: bold;">₹0.00</div>
+    </div>
+
+    <p style="color: #666; font-size: 14px;">पेमेंट प्राप्त करने के लिए UPI ID डालें</p>
+    <input type="text" id="upiId" placeholder="example@upi">
+    <button onclick="makeScanner()">QR जनरेट करें</button>
+
+    <div id="qr-result">
+        <div id="qrcode"></div>
+        <p style="font-size: 12px; color: #888; margin-top: 10px;">इसे स्कैन करके पैसे प्राप्त करें</p>
+    </div>
+</div>
+
+<script>
+    function makeScanner() {
+        var upi = document.getElementById('upiId').value;
+        var resultDiv = document.getElementById('qr-result');
+        if(upi.includes('@')) {
+            var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=" + upi;
+            document.getElementById('qrcode').innerHTML = "<img src='" + qrUrl + "'>";
+            resultDiv.style.display = "block";
+        } else {
+            alert("कृपया एक वैध UPI ID डालें");
+        }
+    }
+</script>
+
+</body>
+</html>
